@@ -36,7 +36,7 @@ public class CassandraTest {
 	public static void testRead(){
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				new String[] { "spring-data-cassandra.xml" });
-		UserTokenDao utDao = context.getBean(UserTokenDao.class);
+//		UserTokenDao utDao = context.getBean(UserTokenDao.class);
 		UserTokenDao2 utDao2 = context.getBean(UserTokenDao2.class);
 		//List<UserToken> uts = new ArrayList<UserToken>();
 		log.info("开始读取10000条数据从cassandra中。");

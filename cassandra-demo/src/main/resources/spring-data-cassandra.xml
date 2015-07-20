@@ -23,5 +23,5 @@
 	<cassandra:mapping />
 	<cassandra:converter />
 	<cassandra:template id="cqlTemplate" />
-	<cassandra:repositories base-package="com.sohu.cassandra" />
+	<cassandra:repositories base-package="com.marsyoung.cassandra" />
 </beans>
