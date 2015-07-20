@@ -1,5 +1,7 @@
 package com.marsyoung.cassandra;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.cassandra.core.PrimaryKeyType;
 import org.springframework.data.annotation.Persistent;
 import org.springframework.data.cassandra.mapping.PrimaryKeyColumn;
@@ -35,5 +37,12 @@ public class UserToken {
 		this.usertoken = usertoken;
 		this.expireTime = expireTime;
 	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
+	
+	
 
 }
