@@ -1,5 +1,8 @@
 package com.marsyoung.cassandra;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -8,7 +11,8 @@ public class CassandraTest {
 
 	private static Log log=LogFactory.getLog(CassandraTest.class);
 	public static void main(String[] args) {
-		CassandraTest.testRead();
+		CassandraTest.testWrite();
+		//CassandraTest.testRead();
 	}
 	
 	
@@ -19,13 +23,33 @@ public class CassandraTest {
 		//List<UserToken> uts = new ArrayList<UserToken>();
 		log.info("开始插入10000条数据到cassandra中。");
 		long startTime = System.currentTimeMillis();
-		for (int i = 0; i < 10000; i++) {
+		for (int i = 0; i < 20000000; i++) {
 			String s = new Integer(i).toString();
 			long l = (long) i;
 			UserToken ut = new UserToken(s+s+"@sohu.com", l, s+s, l+l, s+s+s+s, l+l+l);
 			//uts.add(ut);
-			utDao.save(ut);
-			log.info(i);
+			UserToken ut2=utDao.save(ut);
+			log.info(ut2);
+		}
+		log.info("完成插入10000条数据到cassandra中。");
+		long endTime = System.currentTimeMillis();
+		context.close();
+		System.out.println("本次操作用时" + (endTime - startTime) + "ms");
+	}
+	
+	public static void testWrite2(){
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+				new String[] { "spring-data-cassandra.xml" });
+		UserTokenDao utDao = context.getBean(UserTokenDao.class);
+		List<UserToken> uts = new ArrayList<UserToken>();
+		log.info("开始插入10000条数据到cassandra中。");
+		long startTime = System.currentTimeMillis();
+		for (int i = 0; i < 10000; i++) {
+			String s = new Integer(i).toString();
+			long l = (long) i;
+			UserToken ut = new UserToken(s+s+"@sohu.com", l, s+s, l+l, s+s+s+s, l+l+l);
+			uts.add(ut);
+			utDao.save(uts);
 		}
 		log.info("完成插入10000条数据到cassandra中。");
 		long endTime = System.currentTimeMillis();
@@ -41,7 +65,7 @@ public class CassandraTest {
 		//List<UserToken> uts = new ArrayList<UserToken>();
 		log.info("开始读取10000条数据从cassandra中。");
 		long startTime = System.currentTimeMillis();
-		for (int i = 0; i < 10000; i++) {
+		for (int i = 10000; i < 20000; i++) {
 			String s = new Integer(i).toString();
 			long l = (long) i;
 			String passport=s+s+"@sohu.com";
@@ -55,9 +79,6 @@ public class CassandraTest {
 		long endTime = System.currentTimeMillis();
 		context.close();
 		System.out.println("本次操作用时" + (endTime - startTime) + "ms");
-		
-		
-		System.out.println(Float.valueOf(128));
 	}
 
 }
