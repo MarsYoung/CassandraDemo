@@ -80,5 +80,6 @@ public class CassandraTest {
 		context.close();
 		System.out.println("本次操作用时" + (endTime - startTime) + "ms");
 	}
+	
 
 }

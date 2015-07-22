@@ -4,6 +4,11 @@ import org.springframework.data.cassandra.repository.CassandraRepository;
 import org.springframework.data.cassandra.repository.Query;
 import org.springframework.stereotype.Repository;
 
+/**
+ * 该接口继承自CassandraRepository，通过Query标签来指定接口的实现。
+ * @author zhiyuma
+ *
+ */
 @Repository
 public interface UserTokenDao2 extends CassandraRepository<UserToken>{
 	
