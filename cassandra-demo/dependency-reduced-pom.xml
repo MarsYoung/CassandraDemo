@@ -26,7 +26,7 @@
                   <resource>META-INF/spring.schemas</resource>
                 </transformer>
                 <transformer>
-                  <mainClass>com.marsyoung.cassandra.CassandraTest2</mainClass>
+                  <mainClass>com.marsyoung.cassandra.CassandraTest3</mainClass>
                 </transformer>
               </transformers>
             </configuration>
