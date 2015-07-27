@@ -18,6 +18,7 @@ public class CassandraTest3 {
 			log.info("need thread number and write-read percent.");
 			return ;
 		}
+		log.info("total "+args[0]+ ";read "+args[1]);
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				new String[] { "spring-data-cassandra.xml" });
 		UserTokenDao utDao = context.getBean(UserTokenDao.class);
