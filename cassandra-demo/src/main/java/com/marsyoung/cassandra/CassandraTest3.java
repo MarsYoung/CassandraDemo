@@ -5,21 +5,28 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class CassandraTest3 {
+	private static Log log = LogFactory.getLog(CassandraTest3.class);
 
 	public static void main(String[] args) throws InterruptedException {
-
+		
+		if(args==null||args.length<2){
+			log.info("need thread number and write-read percent.");
+			return ;
+		}
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				new String[] { "spring-data-cassandra.xml" });
 		UserTokenDao utDao = context.getBean(UserTokenDao.class);
 		UserTokenDao2 utDao2 = context.getBean(UserTokenDao2.class);
 
-		ExecutorService executor = Executors.newFixedThreadPool(100);
-		CountDownLatch latch = new CountDownLatch(100);
+		ExecutorService executor = Executors.newFixedThreadPool(Integer.valueOf(args[0]));
+		CountDownLatch latch = new CountDownLatch(Integer.valueOf(args[0]));
 		for (int i = 0; i < 100; i++) {
-			if (i < 95) {
+			if (i < Integer.valueOf(args[0])) {
 				executor.submit(new WriteCassandra(latch, utDao));
 			} else {
 				executor.submit(new ReadCassandra(latch, utDao2));
@@ -47,7 +54,7 @@ public class CassandraTest3 {
 				if (++i % 10000 == 0) {
 					long end = System.currentTimeMillis();
 					long cost = end - start;
-					System.out.println("write 10000 cost : " + cost + " ms");
+					log.info("write 10000 cost : " + cost + " ms");
 					start = System.currentTimeMillis();
 				}
 
@@ -95,7 +102,7 @@ public class CassandraTest3 {
 				if (++i % 10000 == 0) {
 					long end = System.currentTimeMillis();
 					long cost = end - start;
-					System.out.println("read 10000 cost : " + cost + " ms");
+					log.info("read 10000 cost : " + cost + " ms");
 					start = System.currentTimeMillis();
 				}
 
