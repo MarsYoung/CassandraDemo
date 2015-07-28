@@ -26,7 +26,7 @@ public class CassandraTest3 {
 
 		ExecutorService executor = Executors.newFixedThreadPool(Integer.valueOf(args[0]));
 		CountDownLatch latch = new CountDownLatch(Integer.valueOf(args[0]));
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < Integer.valueOf(args[0]); i++) {
 			if (i < Integer.valueOf(args[1])) {
 				executor.submit(new WriteCassandra(latch, utDao));
 			} else {
