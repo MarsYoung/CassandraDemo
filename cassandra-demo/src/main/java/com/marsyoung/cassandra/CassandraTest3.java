@@ -19,6 +19,7 @@ public class CassandraTest3 {
 			return ;
 		}
 		log.info("total "+args[0]+ ";read "+args[1]);
+		@SuppressWarnings("resource")
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				new String[] { "spring-data-cassandra.xml" });
 		UserTokenDao utDao = context.getBean(UserTokenDao.class);
@@ -32,8 +33,8 @@ public class CassandraTest3 {
 			} else {
 				executor.submit(new ReadCassandra(latch, utDao2));
 			}
+			latch.countDown();
 		}
-		latch.await();
 	}
 
 	static class WriteCassandra implements Runnable {
@@ -46,7 +47,11 @@ public class CassandraTest3 {
 		}
 
 		public void run() {
-			latch.countDown();
+			try {
+				latch.await();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			Random random = new Random(1000);
 			int i = 0;
 			long start = System.currentTimeMillis();
